@@ -100,6 +100,12 @@
                      dockerService="true";
             }
 
+
+            else if(serviceName=="camera"){
+                     serviceId = "motion.service";
+                     dockerService="false";
+            }
+
             if(passwd !== null){
             $.ajax(
                 {
@@ -213,6 +219,22 @@
                     else:
                         { ?>
                          <img onclick="promptPassword('inactive','voice')" class = "service-button" id="voice-button-inactivo" src="./sources/Voice inactivo.svg" alt="Voice logo and service activation">
+                        <?php }
+                    putenv('PATH=/usr/bin');
+                    endif;
+                ?>
+
+                <!--Camera Button---->
+                <?php
+                    $camera_status = shell_exec('systemctl show -p ActiveState motion --value');
+                    $camera_status = preg_replace('/[\x00-\x1F\x7F]/', '', $camera_status);
+                    if (strcmp($camera_status, "active") == 0):
+                        { ?>
+                            <img onclick="promptPassword('active','camera')" class = "service-button" id="camera-button-activo" src="./sources/Camera activo.svg" alt="Camera logo and service activation">
+                            <?php }
+                    else:
+                        { ?>
+                         <img onclick="promptPassword('inactive','camera')" class = "service-button" id="camera-button-inactivo" src="./sources/Camera inactivo.svg" alt="Camera logo and service activation">
                         <?php }
                     putenv('PATH=/usr/bin');
                     endif;
